@@ -138,3 +138,11 @@ class TestAccountService(TestCase):
         """It should read a empty account"""
         resp = self.client.get(f"{BASE_URL}/0")
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+    
+    def test_account_list(self):
+        """It should get a list of accounts"""
+        self._create_accounts(5)
+        response = self.client.get(BASE_URL)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        mylist = response.get_json()
+        self.assertEqual(len(mylist), 5)
