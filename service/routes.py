@@ -57,17 +57,16 @@ def create_accounts():
         jsonify(message), status.HTTP_201_CREATED, {"Location": location_url}
     )
 
+
 ######################################################################
 # LIST ALL ACCOUNTS
 ######################################################################
-
 @app.route("/accounts", methods=["GET"])
 def list_accounts():
     """
     List the accounts
     """
     app.logger.info("requested to fetch the accounts")
-    #check_content_type("application/json")
     accounts = Account.all()
 
     liste = [account.serialize() for account in accounts]
@@ -75,11 +74,10 @@ def list_accounts():
     app.logger.info("Returning [%s] accounts", len(liste))
     return jsonify(liste), status.HTTP_200_OK
 
+
 ######################################################################
 # READ AN ACCOUNT
 ######################################################################
-
-# ... place you code here to READ an account ...
 @app.route("/accounts/<int:account_id>", methods=["GET"])
 def read_account(account_id):
     """
@@ -87,11 +85,10 @@ def read_account(account_id):
     This endpoint will read an Account based the account_id is requested
     """
     app.logger.info("request to read an account with id: %s", account_id)
-    #check_content_type("application/json")
+    # check_content_type("application/json")
     account = Account.find(account_id)
     if not account:
         abort(status.HTTP_404_NOT_FOUND, f"Account with id  [{account_id}] is not found")
-    
     return account.serialize(), status.HTTP_200_OK
 
 
@@ -101,40 +98,38 @@ def read_account(account_id):
 
 @app.route("/accounts/<int:account_id>", methods=["PUT"])
 def update_accounts(account_id):
-        """
-        Update an Account
-        This endpoint will update an Account based on the posted data
-        """
-        app.logger.info("Request to update an Account with id: %s", account_id)
-        account = Account.find(account_id)
-        if not account:
-            abort(status.HTTP_404_NOT_FOUND)
-        account.deserialize(request.get_json())
-        account.update()
-        return account.serialize(), status.HTTP_200_OK
+    """
+    Update an Account
+    This endpoint will update an Account based on the posted data
+    """
+    app.logger.info("Request to update an Account with id: %s", account_id)
+    account = Account.find(account_id)
+    if not account:
+        abort(status.HTTP_404_NOT_FOUND)
+    account.deserialize(request.get_json())
+    account.update()
+    return account.serialize(), status.HTTP_200_OK
+
 
 ######################################################################
 # DELETE AN ACCOUNT
 ######################################################################
 @app.route("/accounts/<int:account_id>", methods=["DELETE"])
 def delete_accounts(account_id):
-        """
-        delete an Account
-        This endpoint will delete an Account
-        """
-        app.logger.info("Request to update an Account with id: %s", account_id)
-        account = Account.find(account_id)
-        if account:
-            account.delete()
-        return("", status.HTTP_204_NO_CONTENT)
-
-
+    """
+    delete an Account
+    This endpoint will delete an Account
+    """
+    app.logger.info("Request to update an Account with id: %s", account_id)
+    account = Account.find(account_id)
+    if account:
+        account.delete()
+    return("", status.HTTP_204_NO_CONTENT)
 
 
 ######################################################################
 #  U T I L I T Y   F U N C T I O N S
 ######################################################################
-
 def check_content_type(media_type):
     """Checks that the media type is correct"""
     content_type = request.headers.get("Content-Type")
