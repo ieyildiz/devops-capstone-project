@@ -66,7 +66,6 @@ def list_accounts():
     List the accounts
     """
     app.logger.info("requested to fetch the accounts")
-#check_content_type("application/json")
     accounts = Account.all()
 
     liste = [account.serialize() for account in accounts]
