@@ -60,14 +60,13 @@ def create_accounts():
 ######################################################################
 # LIST ALL ACCOUNTS
 ######################################################################
-
 @app.route("/accounts", methods=["GET"])
 def list_accounts():
     """
     List the accounts
     """
     app.logger.info("requested to fetch the accounts")
-    #check_content_type("application/json")
+#check_content_type("application/json")
     accounts = Account.all()
 
     liste = [account.serialize() for account in accounts]
@@ -78,8 +77,6 @@ def list_accounts():
 ######################################################################
 # READ AN ACCOUNT
 ######################################################################
-
-# ... place you code here to READ an account ...
 @app.route("/accounts/<int:account_id>", methods=["GET"])
 def read_account(account_id):
     """
