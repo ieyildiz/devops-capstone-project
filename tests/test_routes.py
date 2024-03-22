@@ -135,14 +135,14 @@ class TestAccountService(TestCase):
             f"{BASE_URL}/{account.id}", content_type="application/json"
         )
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
-        my_account=resp.get_json()
+        my_account = resp.get_json()
         self.assertEqual(my_account["name"], account.name)
 
     def test_account_not_found(self):
         """It should read a empty account"""
         resp = self.client.get(f"{BASE_URL}/0")
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
-    
+
     def test_account_list(self):
         """It should get a list of accounts"""
         self._create_accounts(5)
@@ -150,7 +150,7 @@ class TestAccountService(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         mylist = response.get_json()
         self.assertEqual(len(mylist), 5)
-    
+
     def test_account_update(self):
         """It should Update an existing Account"""
         test_account = AccountFactory()
@@ -159,13 +159,13 @@ class TestAccountService(TestCase):
             json=test_account.serialize()
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        new_account=response.get_json()
+        new_account = response.get_json()
         new_account["name"] = "Maria Garcia Lopez Alajandro"
-        response= self.client.put(f"{BASE_URL}/{new_account['id']}", json=new_account)
+        response = self.client.put(f"{BASE_URL}/{new_account['id']}", json=new_account)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        update_account=response.get_json()
+        update_account = response.get_json()
         self.assertEqual(update_account["name"], "Maria Garcia Lopez Alajandro")
-    
+
     def test_account_delete(self):
         """It should Delete an Account"""
         account = self._create_accounts(1)[0]
@@ -189,7 +189,7 @@ class TestAccountService(TestCase):
         }
         for key, value in headers.items():
             self.assertEqual(resp.headers.get(key), value)
-    
+
     def test_cors(self):
         """Establish CORS policies"""
         resp = self.client.get('/', environ_overrides=HTTPS_ENVIRON)
